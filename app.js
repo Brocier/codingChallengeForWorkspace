@@ -12,7 +12,7 @@ const app = express()
 
 //mongo setup
 mongoose.Promise = global.Promise
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true})
 
 const connection = mongoose.connection
 connection.on('connected', () => {
@@ -41,8 +41,8 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Controllers
-const userController = require('./routes/wordController.js')
-app.use('/api/users', userController)
+const wordController = require('./routes/wordController.js')
+app.use('/api/words', wordController)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

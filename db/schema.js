@@ -1,7 +1,7 @@
 const {Schema} = require('mongoose')
 
 const WordSchema = new Schema({
-  name: {
+  word: {
     type: String,
     required: true
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
+import axios from 'axios'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ export default class App extends React.Component {
       currentWord: 'Hit the button'
     };
 
-    oneHundredMostCommonWords = [
+    mostCommonWords = [
       'the',
       'at',
       'there',
@@ -115,11 +116,14 @@ export default class App extends React.Component {
       function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
       }
-      let numberOfWords = oneHundredMostCommonWords.length
+      let numberOfWords = mostCommonWords.length
       let randomNumber = getRandomInt(numberOfWords);
-      let newWord = oneHundredMostCommonWords[randomNumber];
+      let word = mostCommonWords[randomNumber];
 
-      this.setState({currentWord: newWord});
+      this.setState({currentWord: word});
+      console.log(word + ' set as the new word.');
+
+      return axios.post('http://10.0.0.30:4000/api/words', {word})
     };
   }
 
@@ -127,7 +131,7 @@ export default class App extends React.Component {
     let currentWord = this.state.currentWord
     return (
       <View style={styles.container}>
-        <Text>{currentWord}</Text>
+        <Text style={styles.currentWord}>{currentWord}</Text>
         <Button onPress={changeCurrentWord} title="Get a new word" color="#841584"/>
       </View>
     );
@@ -140,5 +144,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  currentWord: {
+    fontSize: 30
   }
 });
